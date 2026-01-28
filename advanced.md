@@ -132,3 +132,10 @@
 
   
 
+#### Q15. Вам нужно обновить поле status в таблице orders на ‘cancelled' для всех заказов старше 2020 года. Какой запрос использовать?
+
+  
+
+- [x] `update orders set status = 'cancelled' where year(order_date) < 2020.`
+
+
