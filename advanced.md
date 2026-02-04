@@ -101,12 +101,11 @@ FROM cd.database;
 ### UNION
 -----------------------------------------
 #### Что делает UNION ALL по сравнению с UNION ?
-Выполняет объединение без удаления дубликатов
-Фильтрует строки по ключу
-Использует индекс для объединения
-Объединяет только числовые колонки
-Автоматически сортирует результат
 - [x] `Выполняет объединение без удаления дубликатов`
+- Фильтрует строки по ключу
+- Использует индекс для объединения
+- Объединяет только числовые колонки
+- Автоматически сортирует результат
 
 ### BAG SQL
 -----------------------------------------
@@ -135,41 +134,37 @@ category не включён в SELECT
 SELECT department, COUNT(*), salary
 FROM employees
 GROUP BY department;
-salary не включён в GROUP BY и не агрегирован
-department нельзя использовать в GROUP BY
-Нельзя группировать по строковым полям
-COUNT не может сочетаться с GROUP BY
-SELECT должен содержать только агрегатные функции
 - [x] `salary не включён в GROUP BY и не агрегирован`
+- department нельзя использовать в GROUP BY
+- Нельзя группировать по строковым полям
+- COUNT не может сочетаться с GROUP BY
+S- ELECT должен содержать только агрегатные функции
 
 ### WINDOW
 -----------------------------------------
 #### Что делает конструкция row_number() over (partition by user_id order by order_date) ?
-Нумерует заказы внутри пользователя по дате
-Отфильтровывает первые строки
-Создаёт ранг по сумме
-Назначает уникальный номер для каждого пользователя
-Считает количество заказов
 - [x] `Нумерует заказы внутри пользователя по дате`
+- Отфильтровывает первые строки
+- Создаёт ранг по сумме
+- Назначает уникальный номер для каждого пользователя
+- Считает количество заказов
 
 #### Почему следующий запрос может вернуть неверный ранг пользователя в пределах месяца? 
-rank() over (partition by date_trunc('month', order_date) order by sum(amount) over (partition by user_id))
-Он группирует по user_id, а не по месяцу
-date_trunc нельзя использовать в partition by
-Он использует оконную функцию внутри другой оконной функции
-Он возвращает одинаковый ранг для всех
-rank() требует group by
+- rank() over (partition by date_trunc('month', order_date) order by sum(amount) over (partition by user_id))
+- Он группирует по user_id, а не по месяцу
+- date_trunc нельзя использовать в partition by
 - [x] `Он использует оконную функцию внутри другой оконной функции`
+- Он возвращает одинаковый ранг для всех
+- rank() требует group by
 
 ### INDEX
 -----------------------------------------
 #### Какой из следующих индексов будет наиболее оптимальным для ускорения запросов, фильтрующих данные по user_id и сортирующих их по created_at?
-create index payments_user_id_hash_idx on payments using hash (user_id);
-create index payments_user_id_idx on payments using btree (user_id);
-create index payments_user_id_created_at_idx on payments using btree (user_id, created_at);
-create index payments_gin_idx on payments using gin (to_tsvector('english', user_id::text));
-create index payments_brin_idx on payments using brin (created_at);
+- create index payments_user_id_hash_idx on payments using hash (user_id);
+- create index payments_user_id_idx on payments using btree (user_id);
 - [x] `create index payments_user_id_created_at_idx on payments using btree (user_id, created_at);`
+- create index payments_gin_idx on payments using gin (to_tsvector('english', user_id::text));
+- create index payments_brin_idx on payments using brin (created_at);
 
 #### Вы создали некластеризованный индекс в таблице Products для столбца category, который содержит его записи и адреса соответствующей строки (в основной таблице), в которой находится запись столбца. Какой шаг из перечисленных ниже не совершается при запуске следующего запроса?
 CREATE INDEX product_category_index
@@ -197,21 +192,18 @@ WHERE Respondents.respondent_id=Info.respondent_id;
 - [x] `Нужно указывать, из каких таблиц взяты данные, т.е. Respondents.age, Respondents.phone_number, Info.address`
 
 #### Какой запрос позволяет создать обычное представление с фильтрацией по сумме?
-create materialized view revenue_summary as select user_id, sum(price) as total from payments group by user_id
-create or replace table as select user_id, sum(price) from payments
-create view revenue_summary as select user_id, sum(price) as total from payments group by user_id having sum(price) > 10000
-create view revenue_summary from payments group by user_id
-select into revenue_summary from payments group by user_id
+- create materialized view revenue_summary as select user_id, sum(price) as total from payments group by user_id
+- create or replace table as select user_id, sum(price) from payments
 - [x] `create view revenue_summary as select user_id, sum(price) as total from payments group by user_id having sum(price) > 10000`
+- create view revenue_summary from payments group by user_id
+- select into revenue_summary from payments group by user_id
 
 #### Как обновить материальное представление, чтобы оно учитывало только данные за последние 3 месяца?
-Использовать ALTER MATERIALIZED VIEW с добавлением условия
-Выполнить REFRESH MATERIALIZED VIEW с фильтром
-Обновить материализованное представление через UPDATE
-Применить WHERE dt > now() к уже существующему представлению
-Удалить представление и создать его заново с фильтром
-WHERE dt > current_date - interval '3 months'
+- Использовать ALTER MATERIALIZED VIEW с добавлением условия
 - [x] `Выполнить REFRESH MATERIALIZED VIEW с фильтром`
+- Обновить материализованное представление через UPDATE
+- Применить WHERE dt > now() к уже существующему представлению
+- Удалить представление и создать его заново с фильтром WHERE dt > current_date - interval '3 months'
 
 ### DML
 -----------------------------------------
@@ -225,12 +217,11 @@ WHERE dt > current_date - interval '3 months'
 - [x] `ALTER TABLE Clients ADD email VARCHAR(255);`
 
 #### Вы хотите удалить колонку temp_flag из таблицы sessions. Какой SQL-запрос это реализует?
-alter sessions remove column temp_flag
-alter table sessions drop column temp_flag
-delete temp_flag from sessions
-drop column temp_flag from sessions
-remove column temp_flag in sessions
+- alter sessions remove column temp_flag
 - [x] `alter table sessions drop column temp_flag`
+- delete temp_flag from sessions
+- drop column temp_flag from sessions
+- remove column temp_flag in sessions
 
 #### Вы создали таблицу:
 CREATE TABLE yourtable(x int NOT NULL,
@@ -240,20 +231,18 @@ CONSTRAINT pk_yourtable PRIMARY KEY(x, y));
 - [x] `SET XACT ABORT, NOCOUNT ON`
 
 #### Какой из операторов создаёт таблицу в SQL?
-insert into users values (...)
-rename users to users_backup
-alter users create table
-select into table users
-create table users (...)
+- insert into users values (...)
+- rename users to users_backup
+- alter users create table
+- select into table users
 - [x] `create table users (...)`
 
 #### Вам нужно обновить поле status в таблице orders на ‘cancelled' для всех заказов старше 2020 года. Какой запрос использовать?
-update orders set status = 'cancelled' where order_date < '2020-01-01'
-update orders set status = 'cancelled' and order_date < '2020'
-alter orders set status = 'cancelled' where order_date < 2020
-update orders set status = 'cancelled' where order_date like '201%'
-update orders set status = 'cancelled' where year(order_date) < 2020
-- [x] `update orders set status = 'cancelled' where year(order_date) < 2020.`
+- update orders set status = 'cancelled' where order_date < '2020-01-01'
+- update orders set status = 'cancelled' and order_date < '2020'
+- alter orders set status = 'cancelled' where order_date < 2020
+- update orders set status = 'cancelled' where order_date like '201%'
+- [x] `update orders set status = 'cancelled' where year(order_date) < 2020`
 
 #### Вы даете разрешение или запрет на выполнение определенных операций над объектами базы данных компании. Какие операторы вы используете в данном процессе?
 - [x] `GRANT, REVOKE`
@@ -269,10 +258,8 @@ group by month
 order by month
 
 Выберите вариант, где для каждого запроса указана ошибка, из-за которой запрос либо не сработает, либо вернет неверные значения:
-date_trunc не работает с датами в формате YYYY, a regexp_replace удаляет только буквы, но нелишние символы
-regexp_replace возвращает некорректное значение для САЅТ, а date_trunc('YEAR', transaction_date::date) = '2023' записано с ошибкой
-to_char(transaction_date, 'YYYY-MM') не поддерживает преобразование дат, а sum(...) не суммирует значения типа numeric
-cast(regexp_replace(...)) as numeric нельзя применять в агрегатных функциях, a date_trunc('YEAR', transaction_date::date)='2023' не фильтрует по году
-regexp_replace искажает числовые значения, а group by month некорректно сгруппирует данные
+- date_trunc не работает с датами в формате YYYY, a regexp_replace удаляет только буквы, но нелишние символы
 - [x] `regexp_replace возвращает некорректное значение для САЅТ, а date_trunc('YEAR', transaction_date::date) = '2023' записано с ошибкой`
-
+- to_char(transaction_date, 'YYYY-MM') не поддерживает преобразование дат, а sum(...) не суммирует значения типа numeric
+- cast(regexp_replace(...)) as numeric нельзя применять в агрегатных функциях, a date_trunc('YEAR', transaction_date::date)='2023' не фильтрует по году
+- regexp_replace искажает числовые значения, а group by month некорректно сгруппирует данные
