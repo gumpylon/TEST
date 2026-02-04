@@ -10,11 +10,11 @@
 - [x] `вернется значение THEN первого условия.`
 
 #### Укажите запрос, который выберет все фильмы, связанные со словами bad, good, angry. В названиях фильмов могут содержаться эти слова в разном виде, например в разных регистрах (Badboys) или в измененной форме (goodspeed).
-select movie_name from movies where lower (movie_name) like 'bad' or lower(movie_name) like;
-select movie_name from movies where movie_name like '%bad%' or movie_name like '%angry%' or;
-select movie_name from movies where movie_name like '%Good' or movie_name like '%Bad' or mo;
-select movie_name from movies where lower(movie_name) like '%bad%' or lower(movie_name) like;
-select movie_name from movies where movie_name in ('bad', 'angry', 'good');
+-select movie_name from movies where lower (movie_name) like 'bad' or lower(movie_name) like
+-select movie_name from movies where movie_name like '%bad%' or movie_name like '%angry%' or
+-select movie_name from movies where movie_name like '%Good' or movie_name like '%Bad' or mo
+-select movie_name from movies where lower(movie_name) like '%bad%' or lower(movie_name) like
+-select movie_name from movies where movie_name in ('bad', 'angry', 'good')
 - [x] `select movie_name from movies where lower(movie_name) like '%bad%' or lower(movie_name) like '%angry%' or lower(movie_name) like '%good%'`
 
 #### Выберите верное утверждение относительно операторов EXISTS и ANY в SQL.
@@ -283,10 +283,3 @@ cast(regexp_replace(...)) as numeric нельзя применять в агре
 regexp_replace искажает числовые значения, а group by month некорректно сгруппирует данные
 - [x] `regexp_replace возвращает некорректное значение для САЅТ, а date_trunc('YEAR', transaction_date::date) = '2023' записано с ошибкой`
 
-#### Укажите запрос, который выберет все фильмы, связанные со словами bad, good, angry. названиях фильмов могут содержаться эти слова в разном виде, например в разных регистрах (Badboys) или в измененной форме (goodspeed):
-select movie_name from movies where lower (movie_name) like 'bad' or lower(movie_name) like
-select movie_name from movies where movie_name like '%bad%' or movie_name like '%angry%' or
-select movie_name from movies where movie_name like '%Good' or movie_name like '%Bad' or mo
-select movie_name from movies where lower(movie_name) like '%bad%' or lower(movie_name) like
-select movie_name from movies where movie_name in ('bad', 'angry', 'good')
-- [x] `select movie_name from movies where lower(movie_name) like '%bad%' or lower(movie_name) like`
